@@ -1,15 +1,5 @@
 module.exports = function(grunt) {
 
-    // 压缩合并的css文件【旧的】
-    var cssFiles = {
-        '<%= pkg.path.dest %>css/common.min.css': ['<%= pkg.path.src %>css/common/*.css'],
-        '<%= pkg.path.dest %>css/login.min.css': ['<%= pkg.path.src %>css/login/*.css'],
-        '<%= pkg.path.dest %>css/home.min.css': ['<%= pkg.path.src %>css/home/*.css'],
-        '<%= pkg.path.dest %>css/register.min.css': ['<%= pkg.path.src %>css/register/*.css'],
-        '<%= pkg.path.dest %>css/product.min.css': ['<%= pkg.path.src %>css/product/*.css'],
-        '<%= pkg.path.dest %>css/tool.min.css': ['<%= pkg.path.src %>css/tool/*.css']
-    };
-
     /**
 	 *
      * 构建目标：
@@ -43,20 +33,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg : grunt.file.readJSON('package.json'),
 
-        /**
-         * 合并压缩css代码
-         */
-        cssmin: {
-            options: {
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */',
-                sourceMap: true
-            },
-            build: {
-                files: cssFiles
-            }
-        },
-
-        // 雪碧图（widget组件的图片暂无处理）
+        // 雪碧图
         sprite: {
             options: {
                 imagepath: '<%= pkg.path.dev %>images/mod/',
@@ -229,14 +206,7 @@ module.exports = function(grunt) {
                     // requireJs
                     define: false,
                     require: false,
-                    requirejs: false,
-
-                    // public 【临时处理】
-                    warmTip: false,
-                    setcookie: false,
-                    delcookie: false,
-                    otherOauth2Auth: false,
-                    showNote: false
+                    requirejs: false
                 }
             },
             files: {
@@ -244,65 +214,8 @@ module.exports = function(grunt) {
                     'Gruntfile.js',
                     '<%= pkg.path.dev %>js/**/*.js',
                     '!<%= pkg.path.dev %>js/config.js',
-                    '!<%= pkg.path.dev %>js/lib/**/*.js',
-
-                    // public 【临时处理】
-                    '!<%= pkg.path.dev %>js/public.js'
+                    '!<%= pkg.path.dev %>js/lib/**/*.js'
                 ]
-            }
-        },
-
-        // html压缩
-        htmlmin: {
-            dist: {
-                options: {
-                    removeComments: true,
-                    collapseWhitespace: false
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%= pkg.path.tmp %>view/',
-                    src: ['mod/**/*.html'],
-                    dest: '<%= pkg.path.dist %>view/'
-                }]
-            }
-        },
-
-        // 文本替换
-        replace: {
-            before: {
-                options: {
-                    prefix: '',
-                    patterns: [{
-                        json: {
-                            '<?php include(\'': '@@include(\'../',
-                            '\'); ?>': '\')',
-                            '__DEV__': '../../'
-                        }
-                    }]
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%= pkg.path.dev %>view/',
-                    src: ['**/*.html'],
-                    dest: '<%= pkg.path.tmp %>view/'
-                }]
-            },
-            after: {
-                options: {
-                    prefix: '',
-                    patterns: [{
-                        json: {
-                            '../../': '__DIST__'
-                        }
-                    }]
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%= pkg.path.tmp %>view/',
-                    src: ['mod/**/*.html'],
-                    dest: '<%= pkg.path.tmp %>view/'
-                }]
             }
         },
 
@@ -367,12 +280,6 @@ module.exports = function(grunt) {
 
         // 文件监控
         watch: {
-            // 【旧的】
-            css: {
-                files: ['<%= pkg.path.src %>css/**/*.css'],
-                tasks: ['newer:cssmin'],
-            },
-
             sass: {
                 files: ['<%= pkg.path.dev %>sass/**/*.scss'],
                 tasks: ['sass:dev']
@@ -381,25 +288,22 @@ module.exports = function(grunt) {
                 files: ['<%= pkg.path.dev %>js/**/*.js'],
                 tasks: ['newer:jshint']
             },
-
+            html: {
+                files: ['<%= pkg.path.dev %>html/**/*.html'],
+                tasks: ['newer:includereplace']
+            },
             client: {
                 options: {
                     livereload: true
                 },
                 files: [
-                    // 【旧的】
-                    '**/*.html',
-                    '<%= pkg.path.dest %>css/*',
-
                     '<%= pkg.path.dev %>css/**/*.css',
-                    '<%= pkg.path.dev %>js/**/*.js'
+                    '<%= pkg.path.dev %>js/**/*.js',
+                    '<%= pkg.path.dev %>html/**/*.html'
                 ]
             }
         }
     });
-
-    // 开发时执行该任务【旧的】
-    grunt.registerTask('default', ['watch']);
 
     // 开发使用
     grunt.registerTask('dev', ['watch']);
@@ -435,7 +339,6 @@ module.exports = function(grunt) {
         'includereplace',
         'usemin:html',
         'replace:after',
-        // 'htmlmin',
         'copy:html',
         'clean:tmp'
     ]);
