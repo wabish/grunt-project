@@ -12,8 +12,8 @@
 ## 构建目标
 
 * 图片优化，雪碧图，图片hash戳；
-* sass编译，css压缩合并，css文件hash戳；
-* js检错，requirejs打包，js压缩合并，js文件hash戳。
+* sass 编译，css 压缩合并，css 文件 hash 戳；
+* js 检错，requirejs 打包，js 压缩合并，js 文件 hash 戳。
 
 ## 示例依赖
 
@@ -24,18 +24,18 @@
 
 ``` bash
 └─ src/               # 开发目录
-    ├─ html/          # 存放 html 的目录
+    ├─ html/          # 存放html的目录
         ├─ app/       # 可提取复用的页面模块
         └─ page/      # 各页面入口文件
     ├─ images/        # 存放图片的目录
         ├─ single/    # 不需要合并的图片
         └─ sprite/    # 需要合并的图片
-    ├─ js/            # 存放 js 的目录
+    ├─ js/            # 存放js的目录
         ├─ app/       # 可提取复用的脚步模块
-        ├─ lib/       # 第三方 js 库
+        ├─ lib/       # 第三方js库
         ├─ page/      # 各页面入口脚本文件
-        └─ config.js  # RequireJs 的配置文件
-    └─ sass/          # 存放 sass 的目录
+        └─ config.js  # RequireJs的配置文件
+    └─ sass/          # 存放sass的目录
         ├─ app/       # 可提取复用的样式模块
         └─ page/      # 各页面入口样式文件
 ```
