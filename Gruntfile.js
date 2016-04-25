@@ -70,9 +70,9 @@ module.exports = function(grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= pkg.path.dev %>sass/',
-                    src: ['**/*.scss'],
-                    dest: '<%= pkg.path.dev %>css/',
+                    cwd: '<%= pkg.path.src %>sass/',
+                    src: ['page/*.scss'],
+                    dest: '<%= pkg.path.dist %>css/',
                     ext: '.css'
                 }]
             },
@@ -222,8 +222,15 @@ module.exports = function(grunt) {
         // html依赖替换
         includereplace: {
             dist: {
-                src: '<%= pkg.path.tmp %>view/**/*.html',
-                dest: './'
+                // src: '<%= pkg.path.src %>html/page/*.html',
+                // dest: '<%= pkg.path.dist %>html/page/'
+
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.path.src %>html/page/',
+                    src: ['*.html'],
+                    dest: '<%= pkg.path.dist %>html/page/'
+                }]
             }
         },
 

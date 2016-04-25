@@ -59,7 +59,10 @@ $ grunt dev
 打包上线命令：
 
 ``` bash
-$ grunt release
+$ grunt img
+$ grunt css
+$ grunt js
+$ grunt html
 ```
 
 ## 3. 查看源代码
