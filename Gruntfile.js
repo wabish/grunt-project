@@ -221,10 +221,7 @@ module.exports = function(grunt) {
 
         // html依赖替换
         includereplace: {
-            dist: {
-                // src: '<%= pkg.path.src %>html/page/*.html',
-                // dest: '<%= pkg.path.dist %>html/page/'
-
+            dev: {
                 files: [{
                     expand: true,
                     cwd: '<%= pkg.path.src %>html/page/',
@@ -286,34 +283,50 @@ module.exports = function(grunt) {
         },
 
         // 文件监控
+        // watch: {
+        //     sass: {
+        //         files: ['<%= pkg.path.dev %>sass/**/*.scss'],
+        //         tasks: ['sass:dev']
+        //     },
+        //     js: {
+        //         files: ['<%= pkg.path.dev %>js/**/*.js'],
+        //         tasks: ['newer:jshint']
+        //     },
+        //     html: {
+        //         files: ['<%= pkg.path.dev %>html/**/*.html'],
+        //         tasks: ['newer:includereplace']
+        //     },
+        //     client: {
+        //         options: {
+        //             livereload: true
+        //         },
+        //         files: [
+        //             '<%= pkg.path.dev %>css/**/*.css',
+        //             '<%= pkg.path.dev %>js/**/*.js',
+        //             '<%= pkg.path.dev %>html/**/*.html'
+        //         ]
+        //     }
+        // }
+
         watch: {
             sass: {
-                files: ['<%= pkg.path.dev %>sass/**/*.scss'],
+                files: ['<%= pkg.path.src %>sass/**/*.scss'],
                 tasks: ['sass:dev']
             },
-            js: {
-                files: ['<%= pkg.path.dev %>js/**/*.js'],
-                tasks: ['newer:jshint']
-            },
             html: {
-                files: ['<%= pkg.path.dev %>html/**/*.html'],
-                tasks: ['newer:includereplace']
-            },
-            client: {
-                options: {
-                    livereload: true
-                },
-                files: [
-                    '<%= pkg.path.dev %>css/**/*.css',
-                    '<%= pkg.path.dev %>js/**/*.js',
-                    '<%= pkg.path.dev %>html/**/*.html'
-                ]
+                files: ['<%= pkg.path.src %>html/**/*.html'],
+                tasks: ['includereplace:dev']
             }
         }
     });
 
     // 开发使用
-    grunt.registerTask('dev', ['watch']);
+    grunt.registerTask('dev', [
+        'clean:dist',
+        'sass:dev',
+        'includereplace:dev',
+        'watch'
+    ]);
 
     // 打包上线使用
     // 步骤一：对图片进行打包
