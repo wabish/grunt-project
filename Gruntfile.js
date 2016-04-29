@@ -148,30 +148,38 @@ module.exports = function(grunt) {
 
         // 复制
         copy: {
-            images: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= pkg.path.dev %>images/app/',
-                    src: ['**/*.{png,gif,jpg,jpeg}'],
-                    dest: '<%= pkg.path.tmp %>images/app/'
-                }]
-            },
+            // images: {
+            //     files: [{
+            //         expand: true,
+            //         cwd: '<%= pkg.path.dev %>images/app/',
+            //         src: ['**/*.{png,gif,jpg,jpeg}'],
+            //         dest: '<%= pkg.path.tmp %>images/app/'
+            //     }]
+            // },
+            // js: {
+            //     files: [{
+            //         expand: true,
+            //         cwd: '<%= pkg.path.dev %>js/lib',
+            //         src: ['**/*.js'],
+            //         dest: '<%= pkg.path.dist %>js/lib'
+            //     }]
+            // },
             js: {
                 files: [{
                     expand: true,
-                    cwd: '<%= pkg.path.dev %>js/lib',
+                    cwd: '<%= pkg.path.src %>js',
                     src: ['**/*.js'],
-                    dest: '<%= pkg.path.dist %>js/lib'
+                    dest: '<%= pkg.path.dist %>js'
                 }]
             },
-            html: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= pkg.path.tmp %>view/mod',
-                    src: ['**/*.html'],
-                    dest: '<%= pkg.path.dist %>view/mod'
-                }]
-            }
+            // html: {
+            //     files: [{
+            //         expand: true,
+            //         cwd: '<%= pkg.path.tmp %>view/mod',
+            //         src: ['**/*.html'],
+            //         dest: '<%= pkg.path.dist %>view/mod'
+            //     }]
+            // }
         },
 
         // js代码检错
@@ -313,6 +321,10 @@ module.exports = function(grunt) {
                 files: ['<%= pkg.path.src %>sass/**/*.scss'],
                 tasks: ['sass:dev']
             },
+            js: {
+                files: ['<%= pkg.path.src %>js/**/*.js'],
+                tasks: ['newer:copy']
+            },
             html: {
                 files: ['<%= pkg.path.src %>html/**/*.html'],
                 tasks: ['includereplace:dev']
@@ -325,6 +337,7 @@ module.exports = function(grunt) {
         'clean:dist',
         'sass:dev',
         'includereplace:dev',
+        'copy:js',
         'watch'
     ]);
 
