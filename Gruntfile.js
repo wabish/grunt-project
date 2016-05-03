@@ -88,20 +88,20 @@ module.exports = function(grunt) {
                     dest: '<%= pkg.path.tmp %>css/',
                     ext: '.css'
                 }]
+            },
+            dist: {
+                options: {
+                    style: 'compressed',
+                    sourcemap: 'none'
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.path.tmp %>css/',
+                    src: ['**/*.css'],
+                    dest: '<%= pkg.path.tmp %>css/',
+                    ext: '.css'
+                }]
             }
-            // dist: {
-            //     options: {
-            //         style: 'compressed',
-            //         sourcemap: 'none'
-            //     },
-            //     files: [{
-            //         expand: true,
-            //         cwd: '<%= pkg.path.tmp %>sass/',
-            //         src: ['**/*.css'],
-            //         dest: '<%= pkg.path.tmp %>css/',
-            //         ext: '.css'
-            //     }]
-            // }
         },
 
         // requirejs打包
@@ -262,21 +262,21 @@ module.exports = function(grunt) {
         },
 
         // 文件名替换
-        // usemin: {
-        //     options: {
-        //         assetsDirs: [
-        //             '<%= pkg.path.dist %>images/*',
-        //             '<%= pkg.path.dist %>css/*',
-        //             '<%= pkg.path.dist %>js/*'
-        //         ],
-        //         patterns: {
-        //             js: [[/([\w-]+\.png)/, 'replace image in js']]
-        //         }
-        //     },
-        //     css: '<%= pkg.path.tmp %>css/mod/**/*.css',
-        //     js: '<%= pkg.path.tmp %>js/mod/**/*.js',
-        //     html: '<%= pkg.path.tmp %>view/mod/**/*.html'
-        // },
+        usemin: {
+            options: {
+                assetsDirs: [
+                    '<%= pkg.path.dist %>images/*',
+                    '<%= pkg.path.dist %>css/*',
+                    '<%= pkg.path.dist %>js/*'
+                ],
+                patterns: {
+                    js: [[/([\w-]+\.png)/, 'replace image in js']]
+                }
+            },
+            css: '<%= pkg.path.tmp %>css/**/*.css',
+            js: '<%= pkg.path.tmp %>js/mod/**/*.js',
+            html: '<%= pkg.path.tmp %>view/mod/**/*.html'
+        },
 
         // 静态文件hash
         filerev: {
@@ -291,22 +291,22 @@ module.exports = function(grunt) {
                     dest: '<%= pkg.path.dist %>images/'
                 }]
             },
-            // css: {
-            //     files: [{
-            //         expand: true,
-            //         cwd: '<%= pkg.path.tmp %>css/',
-            //         src: ['**/*.css'],
-            //         dest: '<%= pkg.path.dist %>css/'
-            //     }]
-            // },
-            // js: {
-            //     files: [{
-            //         expand: true,
-            //         cwd: '<%= pkg.path.tmp %>js/',
-            //         src: ['*.js', 'mod/**/*.js'],
-            //         dest: '<%= pkg.path.dist %>js/'
-            //     }]
-            // }
+            css: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.path.tmp %>css/',
+                    src: ['**/*.css'],
+                    dest: '<%= pkg.path.dist %>css/'
+                }]
+            },
+            js: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.path.tmp %>js/',
+                    src: ['*.js', 'mod/**/*.js'],
+                    dest: '<%= pkg.path.dist %>js/'
+                }]
+            }
         },
 
         // 删除文件
@@ -380,12 +380,12 @@ module.exports = function(grunt) {
         'filerev:img'
     ]);
 
-    // // 步骤二：对css进行打包
-    // grunt.registerTask('css', [
-    //     'sass:dist',
-    //     'usemin:css',
-    //     'filerev:css'
-    // ]);
+    // 步骤二：对css进行打包
+    grunt.registerTask('css', [
+        'usemin:css',
+        'sass:dist',
+        'filerev:css'
+    ]);
 
     // // 步骤三：对js进行打包
     // grunt.registerTask('js', [
