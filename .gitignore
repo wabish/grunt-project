@@ -1,5 +1,6 @@
 .DS_Store
 .sass-cache
 dist
+tmp
 node_modules
 *.log

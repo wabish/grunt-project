@@ -34,33 +34,33 @@ module.exports = function(grunt) {
         pkg : grunt.file.readJSON('package.json'),
 
         // 雪碧图
-        // sprite: {
-        //     options: {
-        //         imagepath: '<%= pkg.path.dev %>images/mod/',
-        //         spritedest: '<%= pkg.path.tmp %>images/mod/',
-        //         padding: 2
-        //     },
-        //     mod: {
-        //         files: [{
-        //             expand: true,
-        //             cwd: '<%= pkg.path.dev %>css/mod/',
-        //             src: '*.css',
-        //             dest: '<%= pkg.path.tmp %>sass/mod/'
-        //         }]
-        //     }
-        // },
+        sprite: {
+            options: {
+                imagepath: '<%= pkg.path.tmp %>images/sprite/',
+                spritedest: '<%= pkg.path.tmp %>images/sprite/',
+                padding: 2
+            },
+            mod: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.path.tmp %>css/page/',
+                    src: '*.css',
+                    dest: '<%= pkg.path.tmp %>css/page/'
+                }]
+            }
+        },
 
         // 压缩图片
-        // imagemin: {
-        //     dist: {
-        //         files: [{
-        //             expand: true,
-        //             cwd: '<%= pkg.path.tmp %>images/',
-        //             src: ['**/*.{png,gif,jpg,jpeg}'],
-        //             dest: '<%= pkg.path.tmp %>images/'
-        //         }]
-        //     }
-        // },
+        imagemin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.path.tmp %>images/',
+                    src: ['**/*.{png,gif,jpg,jpeg}'],
+                    dest: '<%= pkg.path.tmp %>images/'
+                }]
+            }
+        },
 
         // 编译sass
         sass: {
@@ -76,6 +76,19 @@ module.exports = function(grunt) {
                     ext: '.css'
                 }]
             },
+            tmp: {
+                options: {
+                    style: 'expanded',
+                    sourcemap: 'none'
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.path.src %>sass/',
+                    src: ['page/*.scss'],
+                    dest: '<%= pkg.path.tmp %>css/',
+                    ext: '.css'
+                }]
+            }
             // dist: {
             //     options: {
             //         style: 'compressed',
@@ -156,6 +169,14 @@ module.exports = function(grunt) {
                     dest: '<%= pkg.path.dist %>images'
                 }]
             },
+            tmpImages: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.path.src %>images',
+                    src: ['**/*.{png,gif,jpg,jpeg}'],
+                    dest: '<%= pkg.path.tmp %>images'
+                }]
+            },
             // js: {
             //     files: [{
             //         expand: true,
@@ -180,6 +201,7 @@ module.exports = function(grunt) {
             //         dest: '<%= pkg.path.dist %>view/mod'
             //     }]
             // }
+
         },
 
         // js代码检错
@@ -257,32 +279,35 @@ module.exports = function(grunt) {
         // },
 
         // 静态文件hash
-        // filerev: {
-        //     img: {
-        //         files: [{
-        //             expand: true,
-        //             cwd: '<%= pkg.path.tmp %>images/',
-        //             src: ['**/*.{png,gif,jpg,jpeg}'],
-        //             dest: '<%= pkg.path.dist %>images/'
-        //         }]
-        //     },
-        //     css: {
-        //         files: [{
-        //             expand: true,
-        //             cwd: '<%= pkg.path.tmp %>css/',
-        //             src: ['**/*.css'],
-        //             dest: '<%= pkg.path.dist %>css/'
-        //         }]
-        //     },
-        //     js: {
-        //         files: [{
-        //             expand: true,
-        //             cwd: '<%= pkg.path.tmp %>js/',
-        //             src: ['*.js', 'mod/**/*.js'],
-        //             dest: '<%= pkg.path.dist %>js/'
-        //         }]
-        //     }
-        // },
+        filerev: {
+            img: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.path.tmp %>images/',
+                    src: [
+                        'single/**/*.{png,gif,jpg,jpeg}',
+                        'sprite/*.{png,gif,jpg,jpeg}'
+                    ],
+                    dest: '<%= pkg.path.dist %>images/'
+                }]
+            },
+            // css: {
+            //     files: [{
+            //         expand: true,
+            //         cwd: '<%= pkg.path.tmp %>css/',
+            //         src: ['**/*.css'],
+            //         dest: '<%= pkg.path.dist %>css/'
+            //     }]
+            // },
+            // js: {
+            //     files: [{
+            //         expand: true,
+            //         cwd: '<%= pkg.path.tmp %>js/',
+            //         src: ['*.js', 'mod/**/*.js'],
+            //         dest: '<%= pkg.path.dist %>js/'
+            //     }]
+            // }
+        },
 
         // 删除文件
         clean: {
@@ -335,6 +360,7 @@ module.exports = function(grunt) {
     // 开发使用
     grunt.registerTask('dev', [
         'clean:dist',
+        'clean:tmp',
         'sass:dev',
         'includereplace:dev',
         'jshint',
@@ -343,15 +369,16 @@ module.exports = function(grunt) {
         'watch'
     ]);
 
-    // // 打包上线使用
-    // // 步骤一：对图片进行打包
-    // grunt.registerTask('img', [
-    //     'clean:dist',
-    //     'sprite',
-    //     'copy:images',
-    //     'imagemin',
-    //     'filerev:img'
-    // ]);
+    // 打包上线使用
+    // 步骤一：对图片进行打包
+    grunt.registerTask('img', [
+        'clean:dist',
+        'sass:tmp',
+        'copy:tmpImages',
+        'sprite',
+        'imagemin',
+        'filerev:img'
+    ]);
 
     // // 步骤二：对css进行打包
     // grunt.registerTask('css', [
