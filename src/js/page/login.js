@@ -1,3 +1,3 @@
 require(['jquery'], function($) {
-    $('.submit-btn').val('登录按钮bb');
+    $('.submit-btn').val('登录按钮');
 });

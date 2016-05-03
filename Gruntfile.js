@@ -34,33 +34,33 @@ module.exports = function(grunt) {
         pkg : grunt.file.readJSON('package.json'),
 
         // 雪碧图
-        sprite: {
-            options: {
-                imagepath: '<%= pkg.path.dev %>images/mod/',
-                spritedest: '<%= pkg.path.tmp %>images/mod/',
-                padding: 2
-            },
-            mod: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= pkg.path.dev %>css/mod/',
-                    src: '*.css',
-                    dest: '<%= pkg.path.tmp %>sass/mod/'
-                }]
-            }
-        },
+        // sprite: {
+        //     options: {
+        //         imagepath: '<%= pkg.path.dev %>images/mod/',
+        //         spritedest: '<%= pkg.path.tmp %>images/mod/',
+        //         padding: 2
+        //     },
+        //     mod: {
+        //         files: [{
+        //             expand: true,
+        //             cwd: '<%= pkg.path.dev %>css/mod/',
+        //             src: '*.css',
+        //             dest: '<%= pkg.path.tmp %>sass/mod/'
+        //         }]
+        //     }
+        // },
 
         // 压缩图片
-        imagemin: {
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= pkg.path.tmp %>images/',
-                    src: ['**/*.{png,gif,jpg,jpeg}'],
-                    dest: '<%= pkg.path.tmp %>images/'
-                }]
-            }
-        },
+        // imagemin: {
+        //     dist: {
+        //         files: [{
+        //             expand: true,
+        //             cwd: '<%= pkg.path.tmp %>images/',
+        //             src: ['**/*.{png,gif,jpg,jpeg}'],
+        //             dest: '<%= pkg.path.tmp %>images/'
+        //         }]
+        //     }
+        // },
 
         // 编译sass
         sass: {
@@ -76,86 +76,86 @@ module.exports = function(grunt) {
                     ext: '.css'
                 }]
             },
-            dist: {
-                options: {
-                    style: 'compressed',
-                    sourcemap: 'none'
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%= pkg.path.tmp %>sass/',
-                    src: ['**/*.css'],
-                    dest: '<%= pkg.path.tmp %>css/',
-                    ext: '.css'
-                }]
-            }
+            // dist: {
+            //     options: {
+            //         style: 'compressed',
+            //         sourcemap: 'none'
+            //     },
+            //     files: [{
+            //         expand: true,
+            //         cwd: '<%= pkg.path.tmp %>sass/',
+            //         src: ['**/*.css'],
+            //         dest: '<%= pkg.path.tmp %>css/',
+            //         ext: '.css'
+            //     }]
+            // }
         },
 
         // requirejs打包
-        requirejs: {
-            options: {
-                appDir: '<%= pkg.path.dev %>js',
-                baseUrl: 'lib',
-                mainConfigFile: '<%= pkg.path.dev %>js/config.js',
-                dir: '<%= pkg.path.tmp %>js'
-            },
-            build: {
-                options: {
-                    optimize: 'uglify2',
-                    // optimize: 'none',
-                    paths: {
-                        'login': '../mod/login',
-                        'home': '../mod/home',
-                        'payFirm': '../mod/payFirm',
-                        'payInfo': '../mod/payInfo',
-                        'payManage': '../mod/payManage',
-                        'payProduct': '../mod/payProduct',
-                        'payVerify': '../mod/payVerify',
-                        'activeIndex': '../mod/activeIndex',
-                        'activeSuccess': '../mod/activeSuccess'
-                    },
-                    modules: [{
-                        name: 'login',
-                        exclude: ['jquery']
-                    },{
-                        name: 'home',
-                        exclude: ['jquery', 'artTemplate']
-                    }, {
-                        name: 'payFirm',
-                        exclude: ['jquery', 'artTemplate']
-                    }, {
-                        name: 'payInfo',
-                        exclude: ['jquery', 'artTemplate']
-                    }, {
-                        name: 'payManage',
-                        exclude: ['jquery', 'artTemplate']
-                    }, {
-                        name: 'payProduct',
-                        exclude: ['jquery', 'artTemplate']
-                    }, {
-                        name: 'payVerify',
-                        exclude: ['jquery', 'placeholder']
-                    }, {
-                        name: 'activeIndex',
-                        exclude: ['jquery']
-                    }, {
-                        name: 'activeSuccess',
-                        exclude: ['jquery']
-                    }]
-                }
-            }
-        },
+        // requirejs: {
+        //     options: {
+        //         appDir: '<%= pkg.path.dev %>js',
+        //         baseUrl: 'lib',
+        //         mainConfigFile: '<%= pkg.path.dev %>js/config.js',
+        //         dir: '<%= pkg.path.tmp %>js'
+        //     },
+        //     build: {
+        //         options: {
+        //             optimize: 'uglify2',
+        //             // optimize: 'none',
+        //             paths: {
+        //                 'login': '../mod/login',
+        //                 'home': '../mod/home',
+        //                 'payFirm': '../mod/payFirm',
+        //                 'payInfo': '../mod/payInfo',
+        //                 'payManage': '../mod/payManage',
+        //                 'payProduct': '../mod/payProduct',
+        //                 'payVerify': '../mod/payVerify',
+        //                 'activeIndex': '../mod/activeIndex',
+        //                 'activeSuccess': '../mod/activeSuccess'
+        //             },
+        //             modules: [{
+        //                 name: 'login',
+        //                 exclude: ['jquery']
+        //             },{
+        //                 name: 'home',
+        //                 exclude: ['jquery', 'artTemplate']
+        //             }, {
+        //                 name: 'payFirm',
+        //                 exclude: ['jquery', 'artTemplate']
+        //             }, {
+        //                 name: 'payInfo',
+        //                 exclude: ['jquery', 'artTemplate']
+        //             }, {
+        //                 name: 'payManage',
+        //                 exclude: ['jquery', 'artTemplate']
+        //             }, {
+        //                 name: 'payProduct',
+        //                 exclude: ['jquery', 'artTemplate']
+        //             }, {
+        //                 name: 'payVerify',
+        //                 exclude: ['jquery', 'placeholder']
+        //             }, {
+        //                 name: 'activeIndex',
+        //                 exclude: ['jquery']
+        //             }, {
+        //                 name: 'activeSuccess',
+        //                 exclude: ['jquery']
+        //             }]
+        //         }
+        //     }
+        // },
 
         // 复制
         copy: {
-            // images: {
-            //     files: [{
-            //         expand: true,
-            //         cwd: '<%= pkg.path.dev %>images/app/',
-            //         src: ['**/*.{png,gif,jpg,jpeg}'],
-            //         dest: '<%= pkg.path.tmp %>images/app/'
-            //     }]
-            // },
+            images: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.path.src %>images/',
+                    src: ['**/*.{png,gif,jpg,jpeg}'],
+                    dest: '<%= pkg.path.dist %>images'
+                }]
+            },
             // js: {
             //     files: [{
             //         expand: true,
@@ -220,9 +220,9 @@ module.exports = function(grunt) {
             files: {
                 src: [
                     'Gruntfile.js',
-                    '<%= pkg.path.dev %>js/**/*.js',
-                    '!<%= pkg.path.dev %>js/config.js',
-                    '!<%= pkg.path.dev %>js/lib/**/*.js'
+                    '<%= pkg.path.src %>js/**/*.js',
+                    '!<%= pkg.path.src %>js/config.js',
+                    '!<%= pkg.path.src %>js/lib/**/*.js'
                 ]
             }
         },
@@ -240,49 +240,49 @@ module.exports = function(grunt) {
         },
 
         // 文件名替换
-        usemin: {
-            options: {
-                assetsDirs: [
-                    '<%= pkg.path.dist %>images/*',
-                    '<%= pkg.path.dist %>css/*',
-                    '<%= pkg.path.dist %>js/*'
-                ],
-                patterns: {
-                    js: [[/([\w-]+\.png)/, 'replace image in js']]
-                }
-            },
-            css: '<%= pkg.path.tmp %>css/mod/**/*.css',
-            js: '<%= pkg.path.tmp %>js/mod/**/*.js',
-            html: '<%= pkg.path.tmp %>view/mod/**/*.html'
-        },
+        // usemin: {
+        //     options: {
+        //         assetsDirs: [
+        //             '<%= pkg.path.dist %>images/*',
+        //             '<%= pkg.path.dist %>css/*',
+        //             '<%= pkg.path.dist %>js/*'
+        //         ],
+        //         patterns: {
+        //             js: [[/([\w-]+\.png)/, 'replace image in js']]
+        //         }
+        //     },
+        //     css: '<%= pkg.path.tmp %>css/mod/**/*.css',
+        //     js: '<%= pkg.path.tmp %>js/mod/**/*.js',
+        //     html: '<%= pkg.path.tmp %>view/mod/**/*.html'
+        // },
 
         // 静态文件hash
-        filerev: {
-            img: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= pkg.path.tmp %>images/',
-                    src: ['**/*.{png,gif,jpg,jpeg}'],
-                    dest: '<%= pkg.path.dist %>images/'
-                }]
-            },
-            css: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= pkg.path.tmp %>css/',
-                    src: ['**/*.css'],
-                    dest: '<%= pkg.path.dist %>css/'
-                }]
-            },
-            js: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= pkg.path.tmp %>js/',
-                    src: ['*.js', 'mod/**/*.js'],
-                    dest: '<%= pkg.path.dist %>js/'
-                }]
-            }
-        },
+        // filerev: {
+        //     img: {
+        //         files: [{
+        //             expand: true,
+        //             cwd: '<%= pkg.path.tmp %>images/',
+        //             src: ['**/*.{png,gif,jpg,jpeg}'],
+        //             dest: '<%= pkg.path.dist %>images/'
+        //         }]
+        //     },
+        //     css: {
+        //         files: [{
+        //             expand: true,
+        //             cwd: '<%= pkg.path.tmp %>css/',
+        //             src: ['**/*.css'],
+        //             dest: '<%= pkg.path.dist %>css/'
+        //         }]
+        //     },
+        //     js: {
+        //         files: [{
+        //             expand: true,
+        //             cwd: '<%= pkg.path.tmp %>js/',
+        //             src: ['*.js', 'mod/**/*.js'],
+        //             dest: '<%= pkg.path.dist %>js/'
+        //         }]
+        //     }
+        // },
 
         // 删除文件
         clean: {
@@ -323,7 +323,7 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ['<%= pkg.path.src %>js/**/*.js'],
-                tasks: ['newer:copy']
+                tasks: ['jshint', 'newer:copy']
             },
             html: {
                 files: ['<%= pkg.path.src %>html/**/*.html'],
@@ -337,42 +337,44 @@ module.exports = function(grunt) {
         'clean:dist',
         'sass:dev',
         'includereplace:dev',
+        'jshint',
         'copy:js',
+        'copy:images',
         'watch'
     ]);
 
-    // 打包上线使用
-    // 步骤一：对图片进行打包
-    grunt.registerTask('img', [
-        'clean:dist',
-        'sprite',
-        'copy:images',
-        'imagemin',
-        'filerev:img'
-    ]);
+    // // 打包上线使用
+    // // 步骤一：对图片进行打包
+    // grunt.registerTask('img', [
+    //     'clean:dist',
+    //     'sprite',
+    //     'copy:images',
+    //     'imagemin',
+    //     'filerev:img'
+    // ]);
 
-    // 步骤二：对css进行打包
-    grunt.registerTask('css', [
-        'sass:dist',
-        'usemin:css',
-        'filerev:css'
-    ]);
+    // // 步骤二：对css进行打包
+    // grunt.registerTask('css', [
+    //     'sass:dist',
+    //     'usemin:css',
+    //     'filerev:css'
+    // ]);
 
-    // 步骤三：对js进行打包
-    grunt.registerTask('js', [
-        'requirejs',
-        'usemin:js',
-        'filerev:js',
-        'copy:js'
-    ]);
+    // // 步骤三：对js进行打包
+    // grunt.registerTask('js', [
+    //     'requirejs',
+    //     'usemin:js',
+    //     'filerev:js',
+    //     'copy:js'
+    // ]);
 
-    // 步骤三：对html进行打包
-    grunt.registerTask('html', [
-        'replace:before',
-        'includereplace',
-        'usemin:html',
-        'replace:after',
-        'copy:html',
-        'clean:tmp'
-    ]);
+    // // 步骤三：对html进行打包
+    // grunt.registerTask('html', [
+    //     'replace:before',
+    //     'includereplace',
+    //     'usemin:html',
+    //     'replace:after',
+    //     'copy:html',
+    //     'clean:tmp'
+    // ]);
 };
