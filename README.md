@@ -1,4 +1,4 @@
-# grunt-demo
+# grunt-project
 
 ## 本示例目标
 
