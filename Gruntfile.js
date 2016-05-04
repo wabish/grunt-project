@@ -208,7 +208,7 @@ module.exports = function(grunt) {
 
         // html依赖替换
         includereplace: {
-            dev: {
+            dist: {
                 files: [{
                     expand: true,
                     cwd: '<%= pkg.path.src %>html/page/',
@@ -283,7 +283,7 @@ module.exports = function(grunt) {
             },
             html: {
                 files: ['<%= pkg.path.src %>html/**/*.html'],
-                tasks: ['includereplace:dev']
+                tasks: ['includereplace']
             }
         }
     });
@@ -293,7 +293,7 @@ module.exports = function(grunt) {
         'clean:dist',
         'clean:tmp',
         'sass:dev',
-        'includereplace:dev',
+        'includereplace',
         'jshint',
         'copy:js',
         'copy:images',
@@ -327,7 +327,7 @@ module.exports = function(grunt) {
         'copy:libJs'
     ]);
 
-    // // 步骤三：对html进行打包
+    // 步骤三：对html进行打包
     grunt.registerTask('html', [
         'includereplace',
         'usemin:html',
