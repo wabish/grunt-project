@@ -8,20 +8,14 @@ module.exports = function(grunt) {
      * （3）js检错，js压缩合并，js文件hash
      * （4）RequireJs打包
      *
-     * 开发步骤：
-     * （1）sass编译
-     * （2）js检错
-     * （3）watch监控文件
+     * 开发命令：
+     *  grunt dev
      *
-     * 上线步骤：
-     * （1）删除dist文件夹
-     * （2）生成雪碧图至tmp/sprite目录下，并压缩图片至tmp/images目录下，最后hash至dist/images目录下
-     * （3）css压缩合并至tmp/css目录下，替换css里面已hash的图片路径，最后将css文件hash至dist/css目录下
-     * （4）js依赖压缩合并至tmp/js目录下，替换js里已hash的静态文件路径，最后将js文件hash至dist/js目录下
-     * （5）将html里的php include替换后放至于tmp/view目录下，复制粘贴include的html文件
-     * （6）替换tmp目录下html里已hash的静态文件，最后将html压缩至dist/view目录下
-     * （7）tmp是临时文件夹，删除
-     * （8）bootstrap.php里搜索PATH_PAGE_VIEW_NEW，src改成dist
+     * 上线命令（需顺序执行）：
+     *  grunt img
+     *  grunt css
+     *  grunt js
+     *  grunt html
      *
      */
 
@@ -105,59 +99,31 @@ module.exports = function(grunt) {
         },
 
         // requirejs打包
-        // requirejs: {
-        //     options: {
-        //         appDir: '<%= pkg.path.dev %>js',
-        //         baseUrl: 'lib',
-        //         mainConfigFile: '<%= pkg.path.dev %>js/config.js',
-        //         dir: '<%= pkg.path.tmp %>js'
-        //     },
-        //     build: {
-        //         options: {
-        //             optimize: 'uglify2',
-        //             // optimize: 'none',
-        //             paths: {
-        //                 'login': '../mod/login',
-        //                 'home': '../mod/home',
-        //                 'payFirm': '../mod/payFirm',
-        //                 'payInfo': '../mod/payInfo',
-        //                 'payManage': '../mod/payManage',
-        //                 'payProduct': '../mod/payProduct',
-        //                 'payVerify': '../mod/payVerify',
-        //                 'activeIndex': '../mod/activeIndex',
-        //                 'activeSuccess': '../mod/activeSuccess'
-        //             },
-        //             modules: [{
-        //                 name: 'login',
-        //                 exclude: ['jquery']
-        //             },{
-        //                 name: 'home',
-        //                 exclude: ['jquery', 'artTemplate']
-        //             }, {
-        //                 name: 'payFirm',
-        //                 exclude: ['jquery', 'artTemplate']
-        //             }, {
-        //                 name: 'payInfo',
-        //                 exclude: ['jquery', 'artTemplate']
-        //             }, {
-        //                 name: 'payManage',
-        //                 exclude: ['jquery', 'artTemplate']
-        //             }, {
-        //                 name: 'payProduct',
-        //                 exclude: ['jquery', 'artTemplate']
-        //             }, {
-        //                 name: 'payVerify',
-        //                 exclude: ['jquery', 'placeholder']
-        //             }, {
-        //                 name: 'activeIndex',
-        //                 exclude: ['jquery']
-        //             }, {
-        //                 name: 'activeSuccess',
-        //                 exclude: ['jquery']
-        //             }]
-        //         }
-        //     }
-        // },
+        requirejs: {
+            options: {
+                appDir: '<%= pkg.path.src %>js',
+                baseUrl: 'lib',
+                mainConfigFile: '<%= pkg.path.src %>js/config.js',
+                dir: '<%= pkg.path.tmp %>js'
+            },
+            build: {
+                options: {
+                    optimize: 'uglify2',
+                    // optimize: 'none',
+                    paths: {
+                        'login': '../page/login',
+                        'home': '../page/home'
+                    },
+                    modules: [{
+                        name: 'login',
+                        exclude: ['jquery']
+                    },{
+                        name: 'home',
+                        exclude: ['jquery', 'artTemplate']
+                    }]
+                }
+            }
+        },
 
         // 复制
         copy: {
@@ -177,14 +143,6 @@ module.exports = function(grunt) {
                     dest: '<%= pkg.path.tmp %>images'
                 }]
             },
-            // js: {
-            //     files: [{
-            //         expand: true,
-            //         cwd: '<%= pkg.path.dev %>js/lib',
-            //         src: ['**/*.js'],
-            //         dest: '<%= pkg.path.dist %>js/lib'
-            //     }]
-            // },
             js: {
                 files: [{
                     expand: true,
@@ -193,15 +151,14 @@ module.exports = function(grunt) {
                     dest: '<%= pkg.path.dist %>js'
                 }]
             },
-            // html: {
-            //     files: [{
-            //         expand: true,
-            //         cwd: '<%= pkg.path.tmp %>view/mod',
-            //         src: ['**/*.html'],
-            //         dest: '<%= pkg.path.dist %>view/mod'
-            //     }]
-            // }
-
+            libJs: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.path.src %>js/lib',
+                    src: ['**/*.js'],
+                    dest: '<%= pkg.path.dist %>js/lib'
+                }]
+            }
         },
 
         // js代码检错
@@ -274,8 +231,8 @@ module.exports = function(grunt) {
                 }
             },
             css: '<%= pkg.path.tmp %>css/**/*.css',
-            js: '<%= pkg.path.tmp %>js/mod/**/*.js',
-            html: '<%= pkg.path.tmp %>view/mod/**/*.html'
+            js: '<%= pkg.path.tmp %>js/page/**/*.js',
+            html: '<%= pkg.path.dist %>html/page/**/*.html'
         },
 
         // 静态文件hash
@@ -303,7 +260,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= pkg.path.tmp %>js/',
-                    src: ['*.js', 'mod/**/*.js'],
+                    src: ['*.js', 'page/**/*.js'],
                     dest: '<%= pkg.path.dist %>js/'
                 }]
             }
@@ -314,32 +271,6 @@ module.exports = function(grunt) {
             dist: ['<%= pkg.path.dist %>'],
             tmp: ['<%= pkg.path.tmp %>']
         },
-
-        // 文件监控
-        // watch: {
-        //     sass: {
-        //         files: ['<%= pkg.path.dev %>sass/**/*.scss'],
-        //         tasks: ['sass:dev']
-        //     },
-        //     js: {
-        //         files: ['<%= pkg.path.dev %>js/**/*.js'],
-        //         tasks: ['newer:jshint']
-        //     },
-        //     html: {
-        //         files: ['<%= pkg.path.dev %>html/**/*.html'],
-        //         tasks: ['newer:includereplace']
-        //     },
-        //     client: {
-        //         options: {
-        //             livereload: true
-        //         },
-        //         files: [
-        //             '<%= pkg.path.dev %>css/**/*.css',
-        //             '<%= pkg.path.dev %>js/**/*.js',
-        //             '<%= pkg.path.dev %>html/**/*.html'
-        //         ]
-        //     }
-        // }
 
         watch: {
             sass: {
@@ -373,6 +304,7 @@ module.exports = function(grunt) {
     // 步骤一：对图片进行打包
     grunt.registerTask('img', [
         'clean:dist',
+        'clean:tmp',
         'sass:tmp',
         'copy:tmpImages',
         'sprite',
@@ -387,21 +319,18 @@ module.exports = function(grunt) {
         'filerev:css'
     ]);
 
-    // // 步骤三：对js进行打包
-    // grunt.registerTask('js', [
-    //     'requirejs',
-    //     'usemin:js',
-    //     'filerev:js',
-    //     'copy:js'
-    // ]);
+    // 步骤三：对js进行打包
+    grunt.registerTask('js', [
+        'requirejs',
+        'usemin:js',
+        'filerev:js',
+        'copy:libJs'
+    ]);
 
     // // 步骤三：对html进行打包
-    // grunt.registerTask('html', [
-    //     'replace:before',
-    //     'includereplace',
-    //     'usemin:html',
-    //     'replace:after',
-    //     'copy:html',
-    //     'clean:tmp'
-    // ]);
+    grunt.registerTask('html', [
+        'includereplace',
+        'usemin:html',
+        'clean:tmp'
+    ]);
 };
