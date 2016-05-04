@@ -23,7 +23,7 @@
 ## 目录结构与说明
 
 ``` bash
-└─ src/                   # 开发目录
+├─ src/                   # 开发目录
     ├─ html/              # 存放html的目录
         ├─ app/           # 可提取复用的页面模块
         └─ page/          # 各页面入口文件
@@ -38,6 +38,8 @@
     └─ sass/              # 存放sass的目录
         ├─ app/           # 可提取复用的样式模块
         └─ page/          # 各页面入口样式文件
+├─ Gruntfile.js           # Grunt配置文件
+└─ package.json           # npm包管理文件
 ```
 
 ## 1. 安装 NPM
